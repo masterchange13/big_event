@@ -24,7 +24,7 @@ public class CategoryServiceImpl implements CategoryService {
         category.setUpdateTime(LocalDateTime.now());
         Map<String, Object> map = ThreadLocalUtil.get();
         Integer id = (Integer) map.get("id");
-        category.setCreateUSer(id);
+        category.setCreateUser(id);
         categoryMapper.add(category);
     }
 

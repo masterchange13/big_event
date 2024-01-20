@@ -19,7 +19,7 @@ public @interface State {
 
 
     // 提供校验失败的提示信息
-    String message() default "{javax.validation.constraints.NotEmpty.message}";
+    String message() default "数据只能是已发布或者草稿";
     // 指定分组
     Class<?>[] groups() default {};
     // 负载 获取到State注解的附加信息

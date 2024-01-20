@@ -4,13 +4,13 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.mao.softwaredesigner1227.entity.Article;
 import com.mao.softwaredesigner1227.entity.PageBean;
+import com.mao.softwaredesigner1227.entity.Result;
 import com.mao.softwaredesigner1227.mapper.ArticleMapper;
 import com.mao.softwaredesigner1227.service.ArticleService;
 import com.mao.softwaredesigner1227.utils.ThreadLocalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -48,5 +48,21 @@ public class ArticleServiceImpl implements ArticleService {
         pageBean.setTotal(p.getTotal());
         pageBean.setItems(p.getResult());
         return pageBean;
+    }
+
+    @Override
+    public void update(Article article) {
+        articleMapper.update(article);
+    }
+
+    @Override
+    public List<Article> findById(Integer id) {
+        List<Article> rs = articleMapper.findById(id);
+        return rs;
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        articleMapper.deleteById(id);
     }
 }

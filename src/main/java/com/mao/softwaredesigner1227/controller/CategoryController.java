@@ -34,7 +34,7 @@ public class CategoryController {
         return Result.success(c);
     }
 
-    @PutMapping()
+    @PutMapping("/update")
     public Result update( @RequestBody @Validated(Category.update.class) Category category){
         categoryService.update(category);
         return  Result.success();

@@ -17,8 +17,8 @@ public class Category {
     @NotEmpty(groups = {add.class, update.class})
     private String categoryName;
     @NotEmpty(groups = {add.class, update.class})
-    private String categoryAlisa;
-    private Integer createUSer;
+    private String categoryAlias;
+    private Integer createUser;
 //    private Integer updateUSer;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
