@@ -1,0 +1,13 @@
+-------------------------------------------------------------------------------
+Test set: com.mao.softwaredesigner1227.dao.QueryRunnerTest
+-------------------------------------------------------------------------------
+Tests run: 7, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.037 s <<< FAILURE! - in com.mao.softwaredesigner1227.dao.QueryRunnerTest
+main{String[]}  Time elapsed: 0.004 s  <<< ERROR!
+org.junit.jupiter.api.extension.ParameterResolutionException: No ParameterResolver registered for parameter [java.lang.String[] args] in method [public void com.mao.softwaredesigner1227.dao.QueryRunnerTest.main(java.lang.String[])].
+
+queryBeanListHandle  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.RuntimeException: java.sql.SQLException: QueryRunner requires a DataSource to be invoked in this way, or a Connection should be passed in
+	at com.mao.softwaredesigner1227.dao.QueryRunnerTest.queryBeanListHandle(QueryRunnerTest.java:108)
+Caused by: java.sql.SQLException: QueryRunner requires a DataSource to be invoked in this way, or a Connection should be passed in
+	at com.mao.softwaredesigner1227.dao.QueryRunnerTest.queryBeanListHandle(QueryRunnerTest.java:103)
+
