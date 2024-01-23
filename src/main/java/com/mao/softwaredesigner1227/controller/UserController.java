@@ -9,14 +9,18 @@ import com.mao.softwaredesigner1227.utils.Md5Util;
 import com.mao.softwaredesigner1227.utils.ThreadLocalUtil;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.print.attribute.ResolutionSyntax;
+import javax.servlet.http.HttpSession;
 import javax.validation.constraints.Pattern;
 import java.rmi.MarshalledObject;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/user")
@@ -25,6 +29,10 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    HttpSession session;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @PostMapping("/register")
     public Result register(@Pattern(regexp = "^\\S{5,16}$") String username, @Pattern(regexp = "^\\S{5,16}$") String password) {
@@ -46,12 +54,18 @@ public class UserController {
         if (loginUser == null) {
             return Result.error("用户名错误");
         }
+        // 如果设计了就需要使用,没设计就不使用,包括utils中VerifyCode
+        // if (session.getAttribute("code") != ){
+        //     return Result.error("验证码错误");
+        // }
         // 判断密码是否正确
         if (Md5Util.getMD5String(password).equals(loginUser.getPassword())) {
             Map<String, Object> claims = new HashMap<>();
             claims.put("id", loginUser.getId());
             claims.put("username", loginUser.getUserName());
             String token = JwtUtil.genToken(claims);
+            ValueOperations<String, String> stringStringValueOperations = stringRedisTemplate.opsForValue();
+            stringStringValueOperations.set(token, token, 300, TimeUnit.DAYS);
             return Result.success(token);
         }
 
@@ -82,9 +96,9 @@ public class UserController {
     }
 
     @PatchMapping("updatePwd")
-    public Result updatePwd(@RequestBody Map<String, String> params) {
+    public Result updatePwd(@RequestBody Map<String, String> params, @RequestHeader("Authorization") String token) {
         String oldPwd = params.get("old_pwd");
-        String newPwd = params.get("new-pwd");
+        String newPwd = params.get("new_pwd");
         String rePwd = params.get("re_pwd");
 
         // 参数检验
@@ -98,8 +112,11 @@ public class UserController {
             return Result.error("两次输入的新密码不一致");
         }
 
-        // 更新
+            // 更新
         userService.updatePwd(newPwd);
+        // 删除原redis中对应的token
+        ValueOperations<String, String> stringStringValueOperations = stringRedisTemplate.opsForValue();
+        stringStringValueOperations.getOperations().delete(token);
         return Result.success();
     }
 }
