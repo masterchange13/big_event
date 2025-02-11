@@ -20,6 +20,9 @@ public class FileUploadController {
         String filename = UUID.randomUUID().toString() + originalFilename.substring(originalFilename.lastIndexOf("."));
         String path = "D:\\jetbrains\\IntelliJ IDEA 2023.2.4\\javaCode\\big_event\\src\\main\\resources\\image\\" + filename;
         file.transferTo(new File(path));
-        return Result.success("文件上传成功");
+        System.out.println("文件上传成功");
+        // set web url
+        String webUrl = "http://localhost:8080/image/" + filename;
+        return Result.success(webUrl);
     }
 }

@@ -25,6 +25,8 @@ public class ArticleController {
 
     @PostMapping()
     public Result add(@RequestBody @Validated Article article) {
+        // print article
+        System.out.println(article);
         articleService.add(article);
         return Result.success();
     }
