@@ -13,7 +13,7 @@
                 and state = #{state}
             </if>
 
-            and create_user = #{userId}
+            and create_user = #{id}
         </where>
     </select>
 </mapper>

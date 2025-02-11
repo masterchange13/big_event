@@ -29,6 +29,7 @@ public class ArticleController {
         return Result.success();
     }
 
+    @GetMapping()
     public Result<PageBean<Article>> list(
             Integer pageNum,
             Integer pageSize,
